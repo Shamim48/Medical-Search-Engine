@@ -50,7 +50,7 @@ public class Sign_in extends AppCompatActivity {
         String password=passwordEt.getText().toString();
   try {
       if((email.equals(person.getEmail()) && (password.equals(person.getPassword())))) {
-          Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+          Intent intent = new Intent(getApplicationContext(), Home.class);
           startActivity(intent);
           emailEt.setText("");
           passwordEt.setText("");
