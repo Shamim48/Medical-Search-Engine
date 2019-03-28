@@ -1,6 +1,7 @@
 package com.fci.shamim.medicalsearchengine;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,12 @@ public class Sign_in extends AppCompatActivity {
      Person person;
      private EditText emailEt,passwordEt;
      TextView showTextTv;
+
+     // MH Sagor
+     SharedPreferences sharedPreferences;
+     SharedPreferences.Editor editor;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +28,14 @@ public class Sign_in extends AppCompatActivity {
         passwordEt=findViewById(R.id.signInPasswordET);
         showTextTv=findViewById(R.id.showTextTvId);
         person=new Person(this);
+
+        sharedPreferences = this.getSharedPreferences("data", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
+        if (sharedPreferences.getBoolean("isLoggedIn", false) == true){
+            Intent intent = new Intent(getApplicationContext(), Home.class);
+            startActivity(intent);
+        }
 /*
 
         showTextTv.setOnClickListener(new View.OnClickListener() {
@@ -48,19 +63,23 @@ public class Sign_in extends AppCompatActivity {
     public void signIn(View view) {
         String email=emailEt.getText().toString();
         String password=passwordEt.getText().toString();
-  try {
-      if((email.equals(person.getEmail()) && (password.equals(person.getPassword())))) {
-          Intent intent = new Intent(getApplicationContext(), Home.class);
-          startActivity(intent);
-          emailEt.setText("");
-          passwordEt.setText("");
-      }else {
-          Toast.makeText(getApplicationContext(),"Email Or Password Not Correct",Toast.LENGTH_SHORT).show();
-      }
-  }catch (Exception e){
-      Toast.makeText(getApplicationContext(),"Exception :"+e,Toast.LENGTH_SHORT).show();
+        try {
+            if((email.equals(person.getEmail()) && (password.equals(person.getPassword())))) {
 
-  }
+                // MH Sagor
+                person.saveUserAuth(true);
+
+              Intent intent = new Intent(getApplicationContext(), Home.class);
+              startActivity(intent);
+              emailEt.setText("");
+              passwordEt.setText("");
+            }else {
+              Toast.makeText(getApplicationContext(),"Email Or Password Not Correct",Toast.LENGTH_SHORT).show();
+            }
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(),"Exception :"+e,Toast.LENGTH_SHORT).show();
+
+        }
 
     }
 

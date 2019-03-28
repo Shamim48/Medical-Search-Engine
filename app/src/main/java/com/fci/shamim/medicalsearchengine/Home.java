@@ -1,5 +1,6 @@
 package com.fci.shamim.medicalsearchengine;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -17,7 +18,7 @@ import android.widget.TextView;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-SharedPreferences sp;
+    SharedPreferences sp;
     TextView nameTv,emailTv;
     Person person;
 
@@ -110,13 +111,21 @@ MenuItem gender = menu.findItem(R.id.genderItmId);
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch(id){
+            case R.id.action_logout:
+                person.saveUserAuth(false);
+                Intent intent = new Intent(this, Sign_in.class);
+                startActivity(intent);
+                break;
+            case R.id.action_settings:
+
+                break;
         }
+
 
         return super.onOptionsItemSelected(item);
     }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override

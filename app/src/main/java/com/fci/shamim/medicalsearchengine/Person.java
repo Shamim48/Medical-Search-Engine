@@ -24,6 +24,7 @@ public class Person {
     public static final String EMAIL="email";
     public static final String PASSWORD="password";
     public static final String CONFIRM_PASSWORD="confirmPassword";
+    public static final String ISLOGGEDIN = "isLoggedIn";
     public static final String DEFAULT="Data nor Found..!";
 
     SharedPreferences sharedPreferences;
@@ -63,6 +64,10 @@ public class Person {
 
     }
 
+    public void saveUserAuth(boolean status){
+        editor.putBoolean(ISLOGGEDIN, status);
+        editor.commit();
+    }
 
     public Person(String name, String number, String age, String gender, String address, String email, String password) {
         this.name = name;
@@ -83,7 +88,8 @@ public class Person {
     }
 
     public String getName() {
-        return sharedPreferences.getString(NAME,DEFAULT);
+
+      return sharedPreferences.getString(NAME,DEFAULT);
     }
 
     public void setName(String name) {
@@ -132,6 +138,10 @@ public class Person {
 
     public String getPassword() {
         return sharedPreferences.getString(PASSWORD,DEFAULT);
+    }
+
+    public boolean getIsLoggedIn() {
+        return sharedPreferences.getBoolean(ISLOGGEDIN, false);
     }
 
     public void setPassword(String password) {
